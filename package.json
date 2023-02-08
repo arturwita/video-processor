@@ -26,10 +26,14 @@
     "@nestjs/core": "9.3.2",
     "@nestjs/mongoose": "9.2.1",
     "@nestjs/platform-express": "9.3.2",
-    "class-validator": "0.14.0",
+    "@unifig/core": "0.12.1",
+    "@unifig/nest": "0.12.1",
+    "@unifig/validation-presenter-table": "0.12.1",
     "class-transformer": "0.5.1",
+    "class-validator": "0.14.0",
     "config": "3.3.9",
     "mongoose": "6.9.0",
+    "nestjs-rmq": "2.8.0",
     "reflect-metadata": "0.1.13"
   },
   "devDependencies": {
