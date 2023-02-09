@@ -4,7 +4,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
-  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts|js)?$",
+  testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts)?$",
   moduleFileExtensions: [
     "js",
     "mjs",

@@ -1,10 +1,10 @@
 {
   "name": "video-processor",
   "version": "1.0.0",
-  "description": "A simple video project to refresh skills in Nest.js, RabbitMQ &amp; MongoDB.",
-  "main": "index.js",
+  "description": "A simple video processing API.",
+  "main": "dist/main.js",
   "scripts": {
-    "test": "jest",
+    "test": "tsc && jest",
     "lint": "eslint -c .eslintrc.js --ext .ts ./src",
     "build": "nest build",
     "start": "nest start",
@@ -26,6 +26,7 @@
     "@nestjs/core": "9.3.2",
     "@nestjs/mongoose": "9.2.1",
     "@nestjs/platform-express": "9.3.2",
+    "@nestjs/swagger": "6.2.1",
     "@unifig/core": "0.12.1",
     "@unifig/nest": "0.12.1",
     "@unifig/validation-presenter-table": "0.12.1",
