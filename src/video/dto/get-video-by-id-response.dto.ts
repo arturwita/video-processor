@@ -1,10 +1,10 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { ProcessingStatus } from "../domain/processing-status.enum";
-import { VideoId } from "../shared/utils/generate-video-id";
+import { ProcessingStatus } from "../../domain/processing-status.enum";
+import { VideoId } from "../video.schema";
 
 export class GetVideoByIdResponseDto {
   @ApiProperty()
-  id: VideoId;
+  _id: VideoId;
 
   @ApiProperty()
   status: ProcessingStatus;

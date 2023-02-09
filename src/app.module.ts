@@ -3,6 +3,7 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@unifig/nest";
 import { Config } from "@unifig/core";
 import { MongoConfig } from "./config/mongo.config";
+import { VideoModule } from "./video/video.module";
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { MongoConfig } from "./config/mongo.config";
       autoIndex: false,
       useUnifiedTopology: true,
     }),
+    VideoModule,
   ],
 })
 export class AppModule {}
