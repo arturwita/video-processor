@@ -1,0 +1,4 @@
+{
+  dbUrl: "mongodb://root:root@localhost:27017/videos?tls=false&ssl=false&authSource=admin",
+  port: 3000,
+}
