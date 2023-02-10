@@ -5,6 +5,7 @@ import {
   LoggerService,
   NotFoundException,
 } from "@nestjs/common";
+import { RMQService } from "nestjs-rmq";
 import { ProcessVideoBodyDto } from "./dto/process-video-body.dto";
 import { generateVideoId } from "../shared/utils/generate-video-id";
 import { ProcessVideoResponseDto } from "./dto/process-video-response.dto";
@@ -17,8 +18,9 @@ import { StartVideoAnalyzingEvent } from "../domain/events/start-video-analyzing
 @Injectable()
 export class VideoService {
   constructor(
+    @Inject(Logger) private readonly logger: LoggerService,
     private readonly videoRepository: VideoRepository,
-    @Inject(Logger) private readonly logger: LoggerService
+    private readonly rabbitService: RMQService
   ) {}
 
   public async process(
@@ -34,7 +36,6 @@ export class VideoService {
 
     await this.videoRepository.save(createVideoDto);
 
-    // TODO: trigger video analyzing
     const event = new StartVideoAnalyzingEvent({ url: dto.url, videoId });
     this.logger.log(`Emitting ${event.topic} event`);
 

@@ -1,13 +1,14 @@
 {
   app: {
     port: 3000,
+    name: "video-processor",
   },
   database: {
     url: "mongodb://root:root@localhost:27017/videos?tls=false&ssl=false&authSource=admin",
   },
   rabbit: {
     exchangeName: "video-exchange",
-    queueName: "video-processor",
+    queueName: "video-processor-queue",
     login: "rabbit",
     password: "example",
     host: "localhost",

@@ -4,8 +4,10 @@ import { ConfigModule } from "@unifig/nest";
 import { Config } from "@unifig/core";
 import { RMQModule } from "nestjs-rmq";
 import { MongoConfig } from "./config/mongo.config";
-import { VideoModule } from "./video/video.module";
 import { RabbitConfig } from "./config/rabbit.config";
+import { AppConfig } from "./config/app.config";
+import { VideoModule } from "./video/video.module";
+import { AnalyzingModule } from "./analyzing/analyzing.module";
 
 @Module({
   imports: [
@@ -15,19 +17,22 @@ import { RabbitConfig } from "./config/rabbit.config";
       autoIndex: false,
       useUnifiedTopology: true,
     }),
-    RMQModule.forRoot({
-      exchangeName: Config.getValues(RabbitConfig).exchangeName,
-      connections: [
-        {
-          login: Config.getValues(RabbitConfig).login,
-          password: Config.getValues(RabbitConfig).password,
-          host: Config.getValues(RabbitConfig).host,
-          port: Config.getValues(RabbitConfig).port,
-        },
-      ],
-      queueName: Config.getValues(RabbitConfig).queueName,
-    }),
+    // RMQModule.forRoot({
+    //   exchangeName: Config.getValues(RabbitConfig).exchangeName,
+    //   connections: [
+    //     {
+    //       login: Config.getValues(RabbitConfig).login,
+    //       password: Config.getValues(RabbitConfig).password,
+    //       host: `${Config.getValues(RabbitConfig).host}:5672`,
+    //       // host: Config.getValues(RabbitConfig).host,
+    //       // port: Config.getValues(RabbitConfig).port,
+    //     },
+    //   ],
+    //   queueName: Config.getValues(RabbitConfig).queueName,
+    //   serviceName: Config.getValues(AppConfig).name,
+    // }),
     VideoModule,
+    AnalyzingModule,
   ],
 })
 export class AppModule {}
