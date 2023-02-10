@@ -31,23 +31,6 @@ services:
     networks:
       - app
 
-#  application:
-#    container_name: video-processor
-#    environment:
-#      RUNS_IN_CONTAINER: true
-#    build: .
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '1'
-#    ports:
-#      - "3000:3000"
-#    depends_on:
-#      - rabbit
-#      - mongo
-#    networks:
-#      - app
-
 networks:
   app:
     driver: bridge
