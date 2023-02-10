@@ -17,20 +17,19 @@ import { AnalyzingModule } from "./analyzing/analyzing.module";
       autoIndex: false,
       useUnifiedTopology: true,
     }),
-    // RMQModule.forRoot({
-    //   exchangeName: Config.getValues(RabbitConfig).exchangeName,
-    //   connections: [
-    //     {
-    //       login: Config.getValues(RabbitConfig).login,
-    //       password: Config.getValues(RabbitConfig).password,
-    //       host: `${Config.getValues(RabbitConfig).host}:5672`,
-    //       // host: Config.getValues(RabbitConfig).host,
-    //       // port: Config.getValues(RabbitConfig).port,
-    //     },
-    //   ],
-    //   queueName: Config.getValues(RabbitConfig).queueName,
-    //   serviceName: Config.getValues(AppConfig).name,
-    // }),
+    RMQModule.forRoot({
+      exchangeName: Config.getValues(RabbitConfig).exchangeName,
+      connections: [
+        {
+          login: Config.getValues(RabbitConfig).login,
+          password: Config.getValues(RabbitConfig).password,
+          host: Config.getValues(RabbitConfig).host,
+          port: Config.getValues(RabbitConfig).port,
+        },
+      ],
+      queueName: Config.getValues(RabbitConfig).queueName,
+      serviceName: Config.getValues(AppConfig).name,
+    }),
     VideoModule,
     AnalyzingModule,
   ],

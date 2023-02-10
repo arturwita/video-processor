@@ -39,6 +39,8 @@ export class VideoService {
     const event = new StartVideoAnalyzingEvent({ url: dto.url, videoId });
     this.logger.log(`Emitting ${event.topic} event`);
 
+    await this.rabbitService.notify(event.topic, event.payload);
+
     return { videoId };
   }
 
