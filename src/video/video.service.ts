@@ -28,19 +28,17 @@ export class VideoService {
 
     const createVideoDto: CreateVideoDto = {
       _id: videoId,
-      status: ProcessingStatus.ANALYZING,
+      url: dto.url,
+      status: ProcessingStatus.QUEUED,
     };
 
-    const video = await this.videoRepository.save(createVideoDto);
+    await this.videoRepository.save(createVideoDto);
 
     // TODO: trigger video analyzing
     const event = new StartVideoAnalyzingEvent({ url: dto.url, videoId });
-    this.logger.log(
-      `Emitting ${event.topic} topic with the given payload`,
-      event.payload
-    );
+    this.logger.log(`Emitting ${event.topic} event`);
 
-    return video;
+    return { videoId };
   }
 
   public async getById(videoId: VideoId): Promise<GetVideoByIdResponseDto> {

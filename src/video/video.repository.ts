@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Video, VideoId } from "./video.schema";
 import { Model } from "mongoose";
 
-export type CreateVideoDto = Pick<Video, "_id" | "status">;
+export type CreateVideoDto = Pick<Video, "_id" | "url" | "status">;
 
 @Injectable()
 export class VideoRepository {

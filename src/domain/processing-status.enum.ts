@@ -1,5 +1,5 @@
 export enum ProcessingStatus {
-  ANALYZING = "analyzing",
-  PROCESSING = "processing",
-  FINISHED = "processed",
+  QUEUED = "queued",
+  ANALYZED = "analyzed",
+  PROCESSED = "processed",
 }

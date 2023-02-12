@@ -9,6 +9,9 @@ export class Video extends Document {
   @Prop({ required: true, unique: true })
   _id: VideoId;
 
+  @Prop({ required: true })
+  url: string;
+
   @Prop({ required: true, enum: ProcessingStatus })
   status: ProcessingStatus;
 }
