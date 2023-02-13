@@ -8,8 +8,8 @@ import { FFprobeService } from "../ffmpeg/ffprobe.service";
 export class AnalyzingService {
   constructor(
     @Inject(Logger) private readonly logger: LoggerService,
-    private readonly rabbitService: RMQService,
-    private readonly ffprobeService: FFprobeService
+    private readonly ffprobeService: FFprobeService,
+    private readonly rabbitService: RMQService
   ) {}
 
   public async analyze(payload: StartVideoAnalyzingEventPayload) {
