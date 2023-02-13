@@ -14,7 +14,7 @@ export class VideoController {
   @ApiExtraModels(ProcessVideoResponseDto)
   @ApiResponse({ schema: { $ref: getSchemaPath(ProcessVideoResponseDto) } })
   public async processVideo(@Body() dto: ProcessVideoBodyDto) {
-    return this.videoService.process(dto);
+    return this.videoService.initProcessing(dto);
   }
 
   @Get("/:id")

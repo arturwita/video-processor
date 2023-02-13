@@ -23,7 +23,7 @@ export class VideoService {
     private readonly rabbitService: RMQService
   ) {}
 
-  public async process(
+  public async initProcessing(
     dto: ProcessVideoBodyDto
   ): Promise<ProcessVideoResponseDto> {
     const videoId = generateVideoId();
