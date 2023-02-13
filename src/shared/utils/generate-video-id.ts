@@ -1,4 +1,4 @@
 import { randomUUID } from "crypto";
-import { VideoId } from "../../video/video.schema";
+import { VideoId } from "../types/video-id";
 
 export const generateVideoId = (): VideoId => randomUUID();

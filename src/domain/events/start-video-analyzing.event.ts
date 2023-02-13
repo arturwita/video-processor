@@ -1,6 +1,6 @@
 import { BaseEvent } from "./base.event";
 import { EventTopic } from "../event-topic.enum";
-import { VideoId } from "../../video/video.schema";
+import { VideoId } from "../../shared/types/video-id";
 
 export type StartVideoAnalyzingEventPayload = {
   videoId: VideoId;

@@ -1,6 +1,6 @@
 import { IsUUID } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
-import { VideoId } from "../video.schema";
+import { VideoId } from "../shared/types/video-id";
 
 export class GetVideoByIdParamsDto {
   @IsUUID("4")

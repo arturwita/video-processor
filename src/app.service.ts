@@ -6,20 +6,21 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { RMQService } from "nestjs-rmq";
+import { StartVideoAnalyzingEvent } from "./domain/events/start-video-analyzing.event";
+import {
+  GetVideoByIdEvent,
+  GetVideoByIdEventPayload,
+} from "./domain/events/get-video-by-id.event";
 import { ProcessVideoBodyDto } from "./dto/process-video-body.dto";
-import { generateVideoId } from "../shared/utils/generate-video-id";
-import { ProcessVideoResponseDto } from "./dto/process-video-response.dto";
-import { ProcessingStatus } from "../domain/processing-status.enum";
 import { GetVideoByIdResponseDto } from "./dto/get-video-by-id-response.dto";
-import { CreateVideoDto, VideoRepository } from "./video.repository";
-import { VideoId } from "./video.schema";
-import { StartVideoAnalyzingEvent } from "../domain/events/start-video-analyzing.event";
+import { ProcessVideoResponseDto } from "./dto/process-video-response.dto";
+import { generateVideoId } from "./shared/utils/generate-video-id";
+import { VideoId } from "./shared/types/video-id";
 
 @Injectable()
-export class VideoService {
+export class AppService {
   constructor(
     @Inject(Logger) private readonly logger: LoggerService,
-    private readonly videoRepository: VideoRepository,
     private readonly rabbitService: RMQService
   ) {}
 
@@ -27,14 +28,6 @@ export class VideoService {
     dto: ProcessVideoBodyDto
   ): Promise<ProcessVideoResponseDto> {
     const videoId = generateVideoId();
-
-    const createVideoDto: CreateVideoDto = {
-      _id: videoId,
-      url: dto.url,
-      status: ProcessingStatus.QUEUED,
-    };
-
-    await this.videoRepository.save(createVideoDto);
 
     const event = new StartVideoAnalyzingEvent({ url: dto.url, videoId });
     this.logger.log(`Emitting ${event.topic} event`);
@@ -45,7 +38,11 @@ export class VideoService {
   }
 
   public async getById(videoId: VideoId): Promise<GetVideoByIdResponseDto> {
-    const video = await this.videoRepository.getById(videoId);
+    const event = new GetVideoByIdEvent({ videoId });
+    const { video } = await this.rabbitService.send<
+      GetVideoByIdEventPayload,
+      { video: GetVideoByIdResponseDto | null }
+    >(event.topic, event.payload);
 
     if (!video) {
       this.logger.log(`Video with ID: [${videoId}] was not found`);
