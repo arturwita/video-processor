@@ -2,7 +2,7 @@ import { BaseEvent } from "./base.event";
 import { EventTopic } from "../event-topic.enum";
 import { VideoId } from "../../video/video.schema";
 
-type StartVideoAnalyzingEventPayload = {
+export type StartVideoAnalyzingEventPayload = {
   videoId: VideoId;
   url: string;
 };

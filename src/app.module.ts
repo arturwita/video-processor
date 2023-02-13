@@ -4,8 +4,10 @@ import { ConfigModule } from "@unifig/nest";
 import { Config } from "@unifig/core";
 import { RMQModule } from "nestjs-rmq";
 import { MongoConfig } from "./config/mongo.config";
-import { VideoModule } from "./video/video.module";
 import { RabbitConfig } from "./config/rabbit.config";
+import { AppConfig } from "./config/app.config";
+import { VideoModule } from "./video/video.module";
+import { AnalyzingModule } from "./analyzing/analyzing.module";
 
 @Module({
   imports: [
@@ -26,8 +28,10 @@ import { RabbitConfig } from "./config/rabbit.config";
         },
       ],
       queueName: Config.getValues(RabbitConfig).queueName,
+      serviceName: Config.getValues(AppConfig).name,
     }),
     VideoModule,
+    AnalyzingModule,
   ],
 })
 export class AppModule {}
