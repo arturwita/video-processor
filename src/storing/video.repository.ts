@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Video, VideoId } from "./video.schema";
 import { Model } from "mongoose";
+import { Video } from "./video.schema";
+import { VideoId } from "../shared/types/video-id";
 
 export type CreateVideoDto = Pick<Video, "_id" | "url" | "status">;
 

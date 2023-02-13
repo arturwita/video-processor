@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import { ProcessingStatus } from "../domain/processing-status.enum";
-
-export type VideoId = string;
+import { VideoId } from "../shared/types/video-id";
 
 @Schema({ collection: "videos" })
 export class Video extends Document {
