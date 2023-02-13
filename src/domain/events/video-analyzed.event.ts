@@ -1,14 +1,10 @@
 import { BaseEvent } from "./base.event";
 import { EventTopic } from "../event-topic.enum";
+import { VideoId, VideoMetadata } from "../../shared/types/video";
 
-type VideoAnalyzedEventPayload = {
-  codec: string;
-  width: number;
-  height: number;
-  rFramerate: string; // the lowest framerate which all timestamps can be represented accurately with
-  avgFramerate: string;
-  colorSpace: string;
-  colorPrimaries: string;
+export type VideoAnalyzedEventPayload = {
+  videoId: VideoId;
+  meta: VideoMetadata;
 };
 
 export class VideoAnalyzedEvent extends BaseEvent<VideoAnalyzedEventPayload> {

@@ -18,13 +18,16 @@ export class AnalyzingService {
       const [videoStreamMeta] = meta.streams;
 
       const event = new VideoAnalyzedEvent({
-        codec: videoStreamMeta.codec_name,
-        avgFramerate: videoStreamMeta.avg_frame_rate,
-        rFramerate: videoStreamMeta.r_frame_rate,
-        height: videoStreamMeta.height,
-        width: videoStreamMeta.width,
-        colorSpace: videoStreamMeta.color_space,
-        colorPrimaries: videoStreamMeta.color_primaries,
+        videoId: payload.videoId,
+        meta: {
+          codec: videoStreamMeta.codec_name,
+          avgFramerate: videoStreamMeta.avg_frame_rate,
+          rFramerate: videoStreamMeta.r_frame_rate,
+          height: videoStreamMeta.height,
+          width: videoStreamMeta.width,
+          colorSpace: videoStreamMeta.color_space,
+          colorPrimaries: videoStreamMeta.color_primaries,
+        },
       });
 
       this.logger.log(`Emitting ${event.topic} event`);
