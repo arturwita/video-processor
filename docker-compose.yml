@@ -1,0 +1,21 @@
+version: "3.6"
+
+services:
+  mongo:
+    image: mongo:4.2
+    container_name: mongodb
+    hostname: mongodb
+    networks:
+      - app
+    ports:
+      - '27017:27017'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=videos
+      - MONGO_INITDB_USER=user
+      - MONGO_INITDB_PWD=password
+
+networks:
+  app:
+    driver: bridge
