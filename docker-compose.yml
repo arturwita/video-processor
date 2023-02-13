@@ -8,13 +8,28 @@ services:
     networks:
       - app
     ports:
-      - '27017:27017'
+      - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=root
       - MONGO_INITDB_DATABASE=videos
       - MONGO_INITDB_USER=user
       - MONGO_INITDB_PWD=password
+
+  rabbit:
+    image: "rabbitmq:3.7.4"
+    container_name: rabbitmq
+    hostname: video-processor-broker
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "rabbit"
+      RABBITMQ_DEFAULT_PASS: "example"
+    volumes:
+      - './rabbitmq/rabbit_enabled_plugins:/etc/rabbitmq/enabled_plugins'
+    networks:
+      - app
 
 networks:
   app:

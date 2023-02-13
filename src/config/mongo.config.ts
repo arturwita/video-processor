@@ -4,6 +4,6 @@ import { From } from "@unifig/core";
 export class MongoConfig {
   @IsString()
   @IsNotEmpty()
-  @From("dbUrl")
+  @From("database.url")
   readonly url: string;
 }

@@ -4,6 +4,6 @@ import { From } from "@unifig/core";
 export class AppConfig {
   @IsInt()
   @IsPositive()
-  @From("port")
+  @From("app.port")
   readonly port: number;
 }

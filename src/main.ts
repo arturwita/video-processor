@@ -6,12 +6,13 @@ import { Config, PlainConfigAdapter } from "@unifig/core";
 import { toTable } from "@unifig/validation-presenter-table";
 import { MongoConfig } from "./config/mongo.config";
 import { AppConfig } from "./config/app.config";
+import { RabbitConfig } from "./config/rabbit.config";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { name, version, description } = require("../package.json");
 
 (async function bootstrap() {
   const validationError = await Config.register({
-    templates: [AppConfig, MongoConfig],
+    templates: [AppConfig, MongoConfig, RabbitConfig],
     adapter: new PlainConfigAdapter(config),
   });
   if (validationError) {

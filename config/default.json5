@@ -1,4 +1,16 @@
 {
-  dbUrl: "mongodb://root:root@localhost:27017/videos?tls=false&ssl=false&authSource=admin",
-  port: 3000,
+  app: {
+    port: 3000,
+  },
+  database: {
+    url: "mongodb://root:root@localhost:27017/videos?tls=false&ssl=false&authSource=admin",
+  },
+  rabbit: {
+    exchangeName: "video-exchange",
+    queueName: "video-processor",
+    login: "rabbit",
+    password: "example",
+    host: "localhost",
+    port: 5672,
+  }
 }
