@@ -15,7 +15,7 @@ import { ProcessVideoBodyDto } from "./dto/process-video-body.dto";
 import { GetVideoByIdResponseDto } from "./dto/get-video-by-id-response.dto";
 import { ProcessVideoResponseDto } from "./dto/process-video-response.dto";
 import { generateVideoId } from "./shared/utils/generate-video-id";
-import { VideoId } from "./shared/types/video-id";
+import { VideoId } from "./shared/types/video";
 
 @Injectable()
 export class AppService {

@@ -5,6 +5,8 @@ import { StartVideoAnalyzingEventPayload } from "../domain/events/start-video-an
 import { CreateVideoDto, VideoRepository } from "./video.repository";
 import { ProcessingStatus } from "../domain/processing-status.enum";
 import { GetVideoByIdEventPayload } from "../domain/events/get-video-by-id.event";
+import { VideoAnalyzedEventPayload } from "../domain/events/video-analyzed.event";
+import { Video } from "./video.schema";
 
 @Controller()
 export class StoringController {
@@ -19,6 +21,14 @@ export class StoringController {
     };
 
     return this.videoRepository.save(createVideoDto);
+  }
+
+  @RMQRoute(EventTopic.VIDEO_ANALYZED)
+  public async saveVideoMetadata(payload: VideoAnalyzedEventPayload) {
+    const { videoId, meta } = payload;
+    const saveMetaProperties: Partial<Video> = { meta };
+
+    return this.videoRepository.update(videoId, saveMetaProperties);
   }
 
   @RMQRoute(EventTopic.GET_VIDEO_BY_ID)
