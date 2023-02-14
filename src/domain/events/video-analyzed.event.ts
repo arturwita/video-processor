@@ -4,6 +4,7 @@ import { VideoId, VideoMetadata } from "../../shared/types/video";
 
 export type VideoAnalyzedEventPayload = {
   videoId: VideoId;
+  url: string;
   meta: VideoMetadata;
 };
 

@@ -19,6 +19,7 @@ export class AnalyzingService {
 
       const event = new VideoAnalyzedEvent({
         videoId: payload.videoId,
+        url: payload.url,
         meta: {
           codec: videoStreamMeta.codec_name,
           avgFramerate: videoStreamMeta.avg_frame_rate,
