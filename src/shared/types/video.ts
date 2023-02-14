@@ -9,3 +9,8 @@ export interface VideoMetadata {
   colorSpace: string;
   colorPrimaries: string;
 }
+
+export type Resolution = {
+  width: number;
+  height: number;
+};

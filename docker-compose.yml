@@ -17,17 +17,17 @@ services:
       MONGO_INITDB_PWD: password
 
   rabbit:
-    image: "rabbitmq:3.7.4"
+    image: rabbitmq:3.7.4
     container_name: rabbitmq
     hostname: video-processor-broker
     ports:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: "rabbit"
-      RABBITMQ_DEFAULT_PASS: "example"
+      RABBITMQ_DEFAULT_USER: rabbit
+      RABBITMQ_DEFAULT_PASS: example
     volumes:
-      - './rabbitmq/rabbit_enabled_plugins:/etc/rabbitmq/enabled_plugins'
+      - "./rabbitmq/rabbit_enabled_plugins:/etc/rabbitmq/enabled_plugins"
     networks:
       - app
 

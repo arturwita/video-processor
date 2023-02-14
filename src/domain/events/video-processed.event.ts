@@ -1,8 +1,9 @@
 import { BaseEvent } from "./base.event";
 import { EventTopic } from "../event-topic.enum";
+import { VideoId } from "../../shared/types/video";
 
-type VideoProcessedEventPayload = {
-  todo: number;
+export type VideoProcessedEventPayload = {
+  videoId: VideoId;
 };
 
 export class VideoProcessedEvent extends BaseEvent<VideoProcessedEventPayload> {
