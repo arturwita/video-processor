@@ -26,7 +26,10 @@ export class StoringController {
   @RMQRoute(EventTopic.VIDEO_ANALYZED)
   public async saveVideoMetadata(payload: VideoAnalyzedEventPayload) {
     const { videoId, meta } = payload;
-    const saveMetaProperties: Partial<Video> = { meta };
+    const saveMetaProperties: Partial<Video> = {
+      status: ProcessingStatus.ANALYZED,
+      meta,
+    };
 
     return this.videoRepository.update(videoId, saveMetaProperties);
   }
