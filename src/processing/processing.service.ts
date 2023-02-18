@@ -14,7 +14,11 @@ export class ProcessingService {
 
   public async process(payload: VideoAnalyzedEventPayload) {
     try {
-      await this.ffmpegService.todo();
+      const video = await this.ffmpegService.transform(payload);
+      // const thumbnail = await this.ffmpegService.createThumbnail(payload);
+
+      // todo: introduce file storage module
+      console.log(video.bitesWritten);
 
       const event = new VideoProcessedEvent({
         videoId: payload.videoId,
@@ -23,7 +27,7 @@ export class ProcessingService {
       this.logger.log(`Emitting ${event.topic} event`);
       await this.rabbitService.notify(event.topic, event.payload);
 
-      return "todo";
+      return event;
     } catch (error) {
       this.logger.error("Failed to process video", error);
       // todo: send to DLQ

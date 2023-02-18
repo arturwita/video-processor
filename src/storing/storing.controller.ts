@@ -40,7 +40,6 @@ export class StoringController {
     const { videoId } = payload;
     const processingResultProperties: Partial<Video> = {
       status: ProcessingStatus.PROCESSED,
-      // todo: add more props
     };
 
     return this.videoRepository.update(videoId, processingResultProperties);
