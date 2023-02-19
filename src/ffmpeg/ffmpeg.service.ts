@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import * as ffmpeg from "fluent-ffmpeg";
 import { PassThrough, Writable } from "stream";
 import { VideoMetadata } from "../shared/types/video";
-import { VideoAnalyzedEventPayload } from "../domain/events/video-analyzed.event";
 
 @Injectable()
 export class FFmpegService {
@@ -12,12 +11,12 @@ export class FFmpegService {
    * 2. Pad the scaled video so its resolution is 1000x1000 (Instagram format)
    * 3. Save the result into a stream, so it can be then saved somewhere (e.g. locally, or in S3)
    */
-  public async transform({
-    url,
-    meta,
-  }: VideoAnalyzedEventPayload): Promise<Writable> {
+  public async transform(
+    url: string,
+    meta: VideoMetadata,
+    extension: string
+  ): Promise<Writable> {
     const stream = new PassThrough();
-    const format = "mp4";
 
     const scaleFilter = this.getScaleFilter(meta);
     const padFilter = this.getPadFilter();
@@ -27,7 +26,7 @@ export class FFmpegService {
         ffmpeg(url)
           .videoFilters([scaleFilter, padFilter])
           .outputOptions("-movflags frag_keyframe+empty_moov")
-          .toFormat(format)
+          .toFormat(extension)
           .pipe(stream, { end: true })
       );
     });
