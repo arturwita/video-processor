@@ -15,10 +15,9 @@ export class ProcessingService {
   public async process(payload: VideoAnalyzedEventPayload) {
     try {
       const video = await this.ffmpegService.transform(payload);
-      // const thumbnail = await this.ffmpegService.createThumbnail(payload);
 
       // todo: introduce file storage module
-      console.log(video.bitesWritten);
+      console.log(video);
 
       const event = new VideoProcessedEvent({
         videoId: payload.videoId,

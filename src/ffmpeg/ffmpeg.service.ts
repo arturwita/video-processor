@@ -1,14 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import * as ffmpeg from "fluent-ffmpeg";
-import {
-  AudioVideoFilter,
-  FfmpegCommand,
-  ScreenshotsConfig,
-} from "fluent-ffmpeg";
-import { createWriteStream } from "fs";
+import { PassThrough, Writable } from "stream";
 import { VideoMetadata } from "../shared/types/video";
 import { VideoAnalyzedEventPayload } from "../domain/events/video-analyzed.event";
-import { PassThrough } from "stream";
 
 @Injectable()
 export class FFmpegService {
@@ -21,9 +15,9 @@ export class FFmpegService {
   public async transform({
     url,
     meta,
-  }: VideoAnalyzedEventPayload): Promise<any> {
-    const format = "mp4";
+  }: VideoAnalyzedEventPayload): Promise<Writable> {
     const stream = new PassThrough();
+    const format = "mp4";
 
     const scaleFilter = this.getScaleFilter(meta);
     const padFilter = this.getPadFilter();
@@ -39,30 +33,7 @@ export class FFmpegService {
     });
   }
 
-  /**
-   * CreateThumbnail method flow:
-   * 1. Take a screenshot of the initial frame
-   * 2. Save the PNG into a stream, so it can be then saved somewhere (e.g. locally, or in S3)
-   */
-  public async createThumbnail({
-    videoId,
-    url,
-  }: VideoAnalyzedEventPayload): Promise<FfmpegCommand> {
-    const path = `${videoId}_thumbnail.png`;
-    const stream = createWriteStream(path);
-    const screenshotConfig: ScreenshotsConfig = {
-      count: 1,
-      size: "320x240",
-    };
-
-    return new Promise((resolve) => {
-      resolve(
-        ffmpeg(url).screenshot(screenshotConfig).output(stream, { end: true })
-      );
-    });
-  }
-
-  private getScaleFilter(meta: VideoMetadata): AudioVideoFilter {
+  private getScaleFilter(meta: VideoMetadata): ffmpeg.AudioVideoFilter {
     const { width, height } = meta;
     const newWidth = 640;
     const newHeight = 480;
@@ -76,7 +47,7 @@ export class FFmpegService {
     };
   }
 
-  private getPadFilter(): AudioVideoFilter {
+  private getPadFilter(): ffmpeg.AudioVideoFilter {
     const pad = 1300;
     const horizontalAlign = "(ow-iw)/2";
     const verticalAlign = "(oh-ih)/2";
