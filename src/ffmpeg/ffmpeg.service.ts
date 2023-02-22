@@ -19,36 +19,23 @@ export class FFmpegService {
    * 3. Save the result into a stream, so it can be then saved somewhere (e.g. locally, or in S3)
    */
   public async transform({
-    meta,
     url,
-    videoId,
+    meta,
   }: VideoAnalyzedEventPayload): Promise<any> {
     const format = "mp4";
-    const path = `${videoId}.${format}`;
     const stream = new PassThrough();
-    // const stream = createWriteStream(path);
 
     const scaleFilter = this.getScaleFilter(meta);
     const padFilter = this.getPadFilter();
 
     return new Promise((resolve) => {
-      const res = ffmpeg(url)
-        // .videoFilters([scaleFilter, padFilter])
-        // .videoFilters([padFilter])
-        .format(format)
-        .noAudio()
-        .on("start", function (cmd) {
-          console.log({ tmp: new Date(), cmd });
-        })
-        .on("error", function (err, stdout, stderr) {
-          console.log({ tmp: new Date(), stderr });
-        })
-        .pipe(stream, { end: true })
-        .on("data", function (chunk) {
-          console.log({ writtenChunks: chunk.length });
-        });
-
-      resolve(res);
+      resolve(
+        ffmpeg(url)
+          .videoFilters([scaleFilter, padFilter])
+          .outputOptions("-movflags frag_keyframe+empty_moov")
+          .toFormat(format)
+          .pipe(stream, { end: true })
+      );
     });
   }
 
@@ -67,7 +54,6 @@ export class FFmpegService {
       count: 1,
       size: "320x240",
     };
-    console.log(new Date(), "thumbnail stream", stream);
 
     return new Promise((resolve) => {
       resolve(
