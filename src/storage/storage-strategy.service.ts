@@ -1,21 +1,25 @@
 import { Injectable } from "@nestjs/common";
+import { InjectConfig } from "@unifig/nest";
+import { ConfigContainer } from "@unifig/core";
+import { StorageConfig } from "../config/storage.config";
 import { FileStorageService } from "./file-storage.service";
-import {
-  AbstractVideoStorage,
-  StorageTarget,
-} from "./abstract/abstract-video-storage";
+import { VideoStorage } from "./abstract/video-storage";
 
 @Injectable()
 export class StorageStrategyService {
-  private readonly strategies: AbstractVideoStorage[];
+  private readonly strategies: VideoStorage[];
 
-  constructor(private readonly fileStorageService: FileStorageService) {
+  constructor(
+    @InjectConfig() private readonly config: ConfigContainer<StorageConfig>,
+    private readonly fileStorageService: FileStorageService
+  ) {
     this.strategies = [fileStorageService];
   }
 
-  public getSupportedStrategy(target: StorageTarget): AbstractVideoStorage {
+  public getSupportedStrategy(): VideoStorage {
+    const { storageType } = this.config.values;
     const strategy = this.strategies.find((strategy) =>
-      strategy.supports(target)
+      strategy.supports(storageType)
     );
 
     if (!strategy) {

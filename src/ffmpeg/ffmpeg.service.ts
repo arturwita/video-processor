@@ -1,26 +1,40 @@
 import { Injectable } from "@nestjs/common";
 import * as ffmpeg from "fluent-ffmpeg";
 import { PassThrough, Writable } from "stream";
-import { VideoMetadata } from "../shared/types/video";
-import { VideoAnalyzedEventPayload } from "../domain/events/video-analyzed.event";
+import { VideoMetadata, Resolution } from "../shared/types/video";
+import { ProcessingConfig } from "../config/processing.config";
 
 @Injectable()
 export class FFmpegService {
   /**
    * Transform method flow:
-   * 1. Scale the original video to new dimensions (640x480)
-   * 2. Pad the scaled video so its resolution is 1000x1000 (Instagram format)
-   * 3. Save the result into a stream, so it can be then saved somewhere (e.g. locally, or in S3)
+   * 1. Scale the original video to new dimensions.
+   * 2. Pad the scaled video.
+   * 3. Save the result into a stream, so it can be then saved based on configured strategy (e.g. locally, or in S3).
    */
   public async transform(
     url: string,
     meta: VideoMetadata,
+    config: ProcessingConfig
   ): Promise<Writable> {
     const stream = new PassThrough();
-    const format = "mp4";
+    const {
+      format,
+      targetHeight,
+      targetWidth,
+      paddedHeight,
+      paddedWidth,
+      padColor,
+    } = config;
 
-    const scaleFilter = this.getScaleFilter(meta);
-    const padFilter = this.getPadFilter();
+    const scaleFilter = this.getScaleFilter(meta, {
+      width: targetWidth,
+      height: targetHeight,
+    });
+    const padFilter = this.getPadFilter(
+      { width: paddedWidth, height: paddedHeight },
+      padColor
+    );
 
     return new Promise((resolve) => {
       resolve(
@@ -33,10 +47,12 @@ export class FFmpegService {
     });
   }
 
-  private getScaleFilter(meta: VideoMetadata): ffmpeg.AudioVideoFilter {
+  private getScaleFilter(
+    meta: VideoMetadata,
+    resolution: Resolution
+  ): ffmpeg.AudioVideoFilter {
     const { width, height } = meta;
-    const newWidth = 640;
-    const newHeight = 480;
+    const { width: newWidth, height: newHeight } = resolution;
 
     const scaledWidth = `${width}*max(${newWidth}/${width}\\,${newHeight}/${height})`;
     const scaledHeight = `${height}*max(${newWidth}/${width}\\,${newHeight}/${height})`;
@@ -47,15 +63,17 @@ export class FFmpegService {
     };
   }
 
-  private getPadFilter(): ffmpeg.AudioVideoFilter {
-    const pad = 1300;
+  private getPadFilter(
+    resolution: Resolution,
+    color: string
+  ): ffmpeg.AudioVideoFilter {
+    const { width, height } = resolution;
     const horizontalAlign = "(ow-iw)/2";
     const verticalAlign = "(oh-ih)/2";
-    const color = "white";
 
     return {
       filter: "pad",
-      options: `${pad}:${pad}:${horizontalAlign}:${verticalAlign}:${color}`,
+      options: `${width}:${height}:${horizontalAlign}:${verticalAlign}:${color}`,
     };
   }
 }

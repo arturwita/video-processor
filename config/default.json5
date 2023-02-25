@@ -15,8 +15,15 @@
     port: 5672,
   },
   storage: {
+    type: "local",
     destination: "results",
-    target: "local",
-    extension: "mp4"
+  },
+  processing: {
+    format: "mp4",
+    targetWidth: 640,
+    targetHeight: 480,
+    paddedWidth: 1000,
+    paddedHeight: 1000,
+    padColor: "white",
   }
 }

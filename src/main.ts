@@ -8,12 +8,19 @@ import { MongoConfig } from "./config/mongo.config";
 import { AppConfig } from "./config/app.config";
 import { RabbitConfig } from "./config/rabbit.config";
 import { StorageConfig } from "./config/storage.config";
+import { ProcessingConfig } from "./config/processing.config";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { name, version, description } = require("../package.json");
 
 (async function bootstrap() {
   const validationError = await Config.register({
-    templates: [AppConfig, MongoConfig, RabbitConfig, StorageConfig],
+    templates: [
+      AppConfig,
+      MongoConfig,
+      RabbitConfig,
+      StorageConfig,
+      ProcessingConfig,
+    ],
     adapter: new PlainConfigAdapter(config),
   });
   if (validationError) {
