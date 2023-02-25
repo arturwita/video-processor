@@ -23,7 +23,7 @@ export class ProcessingService {
       const { outputDirectory, target, extension } = this.config.values;
       const { videoId, url, meta } = payload;
 
-      const video = await this.ffmpegService.transform(url, meta, extension);
+      const video = await this.ffmpegService.transform(url, meta);
       const strategy = this.storageStrategyService.getSupportedStrategy(target);
 
       const path = `${outputDirectory}/${videoId}.${extension}`;
