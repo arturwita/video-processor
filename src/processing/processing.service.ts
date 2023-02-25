@@ -1,26 +1,36 @@
 import { Inject, Injectable, Logger, LoggerService } from "@nestjs/common";
+import { InjectConfig } from "@unifig/nest";
+import { ConfigContainer } from "@unifig/core";
 import { RMQService } from "nestjs-rmq";
 import { VideoAnalyzedEventPayload } from "../domain/events/video-analyzed.event";
 import { VideoProcessedEvent } from "../domain/events/video-processed.event";
 import { FFmpegService } from "../ffmpeg/ffmpeg.service";
+import { StorageConfig } from "../config/storage.config";
+import { StorageStrategyService } from "../storage/storage-strategy.service";
 
 @Injectable()
 export class ProcessingService {
   constructor(
     @Inject(Logger) private readonly logger: LoggerService,
+    @InjectConfig() private readonly config: ConfigContainer<StorageConfig>,
+    private readonly storageStrategyService: StorageStrategyService,
     private readonly ffmpegService: FFmpegService,
     private readonly rabbitService: RMQService
   ) {}
 
   public async process(payload: VideoAnalyzedEventPayload) {
     try {
-      const video = await this.ffmpegService.transform(payload);
+      const { outputDirectory, target, extension } = this.config.values;
+      const { videoId, url, meta } = payload;
 
-      // todo: introduce file storage module
-      console.log(video);
+      const video = await this.ffmpegService.transform(url, meta);
+      const strategy = this.storageStrategyService.getSupportedStrategy(target);
+
+      const path = `${outputDirectory}/${videoId}.${extension}`;
+      await strategy.save(video, path);
 
       const event = new VideoProcessedEvent({
-        videoId: payload.videoId,
+        videoId,
       });
 
       this.logger.log(`Emitting ${event.topic} event`);

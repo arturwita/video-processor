@@ -12,10 +12,10 @@ export class FFmpegService {
    * 2. Pad the scaled video so its resolution is 1000x1000 (Instagram format)
    * 3. Save the result into a stream, so it can be then saved somewhere (e.g. locally, or in S3)
    */
-  public async transform({
-    url,
-    meta,
-  }: VideoAnalyzedEventPayload): Promise<Writable> {
+  public async transform(
+    url: string,
+    meta: VideoMetadata,
+  ): Promise<Writable> {
     const stream = new PassThrough();
     const format = "mp4";
 

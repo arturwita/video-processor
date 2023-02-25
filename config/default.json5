@@ -13,5 +13,10 @@
     password: "example",
     host: "localhost",
     port: 5672,
+  },
+  storage: {
+    destination: "results",
+    target: "local",
+    extension: "mp4"
   }
 }
