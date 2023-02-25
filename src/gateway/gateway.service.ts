@@ -6,19 +6,19 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { RMQService } from "nestjs-rmq";
-import { StartVideoAnalyzingEvent } from "./domain/events/start-video-analyzing.event";
+import { StartVideoAnalyzingEvent } from "../domain/events/start-video-analyzing.event";
 import {
   GetVideoByIdEvent,
   GetVideoByIdEventPayload,
-} from "./domain/events/get-video-by-id.event";
+} from "../domain/events/get-video-by-id.event";
 import { ProcessVideoBodyDto } from "./dto/process-video-body.dto";
 import { GetVideoByIdResponseDto } from "./dto/get-video-by-id-response.dto";
 import { ProcessVideoResponseDto } from "./dto/process-video-response.dto";
-import { generateVideoId } from "./shared/utils/generate-video-id";
-import { VideoId } from "./shared/types/video";
+import { generateVideoId } from "../shared/utils/generate-video-id";
+import { VideoId } from "../shared/types/video";
 
 @Injectable()
-export class AppService {
+export class GatewayService {
   constructor(
     @Inject(Logger) private readonly logger: LoggerService,
     private readonly rabbitService: RMQService

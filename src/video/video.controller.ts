@@ -1,4 +1,4 @@
-import { Controller } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { RMQRoute } from "nestjs-rmq";
 import { EventTopic } from "../domain/event-topic.enum";
 import { ProcessingStatus } from "../domain/processing-status.enum";
@@ -9,8 +9,8 @@ import { VideoProcessedEventPayload } from "../domain/events/video-processed.eve
 import { CreateVideoDto, VideoRepository } from "./video.repository";
 import { Video } from "./video.schema";
 
-@Controller()
-export class StoringController {
+@Injectable()
+export class VideoController {
   constructor(private readonly videoRepository: VideoRepository) {}
 
   @RMQRoute(EventTopic.START_VIDEO_ANALYZING)

@@ -1,5 +1,5 @@
 import { MongooseModule } from "@nestjs/mongoose";
-import { Logger, Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { ConfigModule } from "@unifig/nest";
 import { Config } from "@unifig/core";
 import { RMQModule } from "nestjs-rmq";
@@ -8,9 +8,8 @@ import { RabbitConfig } from "./config/rabbit.config";
 import { AppConfig } from "./config/app.config";
 import { AnalyzingModule } from "./analyzing/analyzing.module";
 import { ProcessingModule } from "./processing/processing.module";
-import { StoringModule } from "./storing/storing.module";
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
+import { VideoModule } from "./video/video.module";
+import { GatewayModule } from "./gateway/gateway.module";
 
 @Module({
   imports: [
@@ -35,9 +34,8 @@ import { AppService } from "./app.service";
     }),
     AnalyzingModule,
     ProcessingModule,
-    StoringModule,
+    VideoModule,
+    GatewayModule,
   ],
-  controllers: [AppController],
-  providers: [AppService, Logger],
 })
 export class AppModule {}

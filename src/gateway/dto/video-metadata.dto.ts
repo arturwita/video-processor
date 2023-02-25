@@ -1,4 +1,4 @@
-import { VideoMetadata } from "../shared/types/video";
+import { VideoMetadata } from "../../shared/types/video";
 import { ApiProperty } from "@nestjs/swagger";
 
 export class VideoMetadataDto implements VideoMetadata {
