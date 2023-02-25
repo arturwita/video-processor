@@ -6,11 +6,11 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { RMQService } from "nestjs-rmq";
-import { StartVideoAnalyzingEvent } from "../domain/events/start-video-analyzing.event";
 import {
   GetVideoByIdEvent,
   GetVideoByIdEventPayload,
-} from "../domain/events/get-video-by-id.event";
+  VideoProcessingRequestEvent,
+} from "../domain/events";
 import { ProcessVideoBodyDto } from "./dto/process-video-body.dto";
 import { GetVideoByIdResponseDto } from "./dto/get-video-by-id-response.dto";
 import { ProcessVideoResponseDto } from "./dto/process-video-response.dto";
@@ -29,9 +29,9 @@ export class GatewayService {
   ): Promise<ProcessVideoResponseDto> {
     const videoId = generateVideoId();
 
-    const event = new StartVideoAnalyzingEvent({ url: dto.url, videoId });
-    this.logger.log(`Emitting ${event.topic} event`);
+    const event = new VideoProcessingRequestEvent({ url: dto.url, videoId });
 
+    this.logger.log(`Emitting ${event.topic} event`);
     await this.rabbitService.notify(event.topic, event.payload);
 
     return { videoId };

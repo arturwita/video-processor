@@ -5,6 +5,8 @@ import { Video } from "./video.schema";
 import { VideoId } from "../shared/types/video";
 
 export type CreateVideoDto = Pick<Video, "_id" | "url" | "status">;
+export type UpdateAnalyzedVideoDto = Pick<Video, "meta" | "status">;
+export type UpdateProcessedVideoDto = Pick<Video, "status">;
 
 @Injectable()
 export class VideoRepository {

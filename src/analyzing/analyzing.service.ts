@@ -1,7 +1,6 @@
 import { Inject, Injectable, Logger, LoggerService } from "@nestjs/common";
 import { RMQService } from "nestjs-rmq";
-import { StartVideoAnalyzingEventPayload } from "../domain/events/start-video-analyzing.event";
-import { VideoAnalyzedEvent } from "../domain/events/video-analyzed.event";
+import { VideoAnalyzedEvent, AnalyzeVideoEventPayload } from "../domain/events";
 import { FFprobeService } from "../ffmpeg/ffprobe.service";
 
 @Injectable()
@@ -12,7 +11,7 @@ export class AnalyzingService {
     private readonly rabbitService: RMQService
   ) {}
 
-  public async analyze(payload: StartVideoAnalyzingEventPayload) {
+  public async analyze(payload: AnalyzeVideoEventPayload) {
     try {
       const meta = await this.ffprobeService.getVideoMeta(payload.url);
       const [videoStreamMeta] = meta.streams;

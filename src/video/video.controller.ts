@@ -1,57 +1,41 @@
 import { Injectable } from "@nestjs/common";
 import { RMQRoute } from "nestjs-rmq";
 import { EventTopic } from "../domain/event-topic.enum";
-import { ProcessingStatus } from "../domain/processing-status.enum";
-import { StartVideoAnalyzingEventPayload } from "../domain/events/start-video-analyzing.event";
-import { GetVideoByIdEventPayload } from "../domain/events/get-video-by-id.event";
-import { VideoAnalyzedEventPayload } from "../domain/events/video-analyzed.event";
-import { VideoProcessedEventPayload } from "../domain/events/video-processed.event";
-import { CreateVideoDto, VideoRepository } from "./video.repository";
-import { Video } from "./video.schema";
+import {
+  GetVideoByIdEventPayload,
+  VideoAnalyzedEventPayload,
+  VideoProcessedEventPayload,
+  VideoProcessingRequestEventPayload,
+} from "../domain/events";
+import { VideoService } from "./video.service";
 
 @Injectable()
 export class VideoController {
-  constructor(private readonly videoRepository: VideoRepository) {}
+  constructor(private readonly videoService: VideoService) {}
 
-  @RMQRoute(EventTopic.START_VIDEO_ANALYZING)
-  public async saveVideo(payload: StartVideoAnalyzingEventPayload) {
-    const createVideoDto: CreateVideoDto = {
-      _id: payload.videoId,
-      url: payload.url,
-      status: ProcessingStatus.QUEUED,
-    };
+  @RMQRoute(EventTopic.VIDEO_PROCESSING_REQUEST)
+  public async createVideo(payload: VideoProcessingRequestEventPayload) {
+    const { videoId, url } = payload;
 
-    return this.videoRepository.save(createVideoDto);
+    return this.videoService.create(videoId, url);
   }
 
   @RMQRoute(EventTopic.VIDEO_ANALYZED)
   public async saveVideoMetadata(payload: VideoAnalyzedEventPayload) {
-    const { videoId, meta } = payload;
-    const saveMetaProperties: Partial<Video> = {
-      status: ProcessingStatus.ANALYZED,
-      meta,
-    };
-
-    return this.videoRepository.update(videoId, saveMetaProperties);
+    return this.videoService.saveMeta(payload);
   }
 
   @RMQRoute(EventTopic.VIDEO_PROCESSED)
-  public async saveProcessingResults(payload: VideoProcessedEventPayload) {
-    const { videoId } = payload;
-    const processingResultProperties: Partial<Video> = {
-      status: ProcessingStatus.PROCESSED,
-    };
-
-    return this.videoRepository.update(videoId, processingResultProperties);
+  public async saveProcessingResults({ videoId }: VideoProcessedEventPayload) {
+    return this.videoService.saveProcessed(videoId);
   }
 
   @RMQRoute(EventTopic.GET_VIDEO_BY_ID)
   public async getVideoById({ videoId }: GetVideoByIdEventPayload) {
-    const video = await this.videoRepository.getById(videoId);
-    if (!video) {
-      return { video: null };
-    }
+    const video = await this.videoService.getById(videoId);
 
-    return { video };
+    return {
+      video,
+    };
   }
 }
