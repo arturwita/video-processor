@@ -13,9 +13,9 @@ export class ProcessingService {
   constructor(
     @Inject(Logger) private readonly logger: LoggerService,
     @InjectConfig() private readonly config: ConfigContainer<StorageConfig>,
+    private readonly storageStrategyService: StorageStrategyService,
     private readonly ffmpegService: FFmpegService,
-    private readonly rabbitService: RMQService,
-    private readonly storageStrategyService: StorageStrategyService
+    private readonly rabbitService: RMQService
   ) {}
 
   public async process(payload: VideoAnalyzedEventPayload) {

@@ -10,7 +10,6 @@ import { ProcessingService } from "./processing.service";
   imports: [
     FFmpegModule,
     StorageModule,
-    ConfigModule.forRoot({ default: StorageConfig }),
   ],
   controllers: [ProcessingController],
   providers: [ProcessingService, Logger],
