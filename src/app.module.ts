@@ -7,6 +7,7 @@ import { MongoConfig } from "./config/mongo.config";
 import { RabbitConfig } from "./config/rabbit.config";
 import { AppConfig } from "./config/app.config";
 import { AnalyzingModule } from "./analyzing/analyzing.module";
+import { ProcessingModule } from "./processing/processing.module";
 import { StoringModule } from "./storing/storing.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -33,6 +34,7 @@ import { AppService } from "./app.service";
       serviceName: Config.getValues(AppConfig).name,
     }),
     AnalyzingModule,
+    ProcessingModule,
     StoringModule,
   ],
   controllers: [AppController],

@@ -4,7 +4,7 @@
   "description": "A simple video processing API.",
   "main": "dist/main.js",
   "scripts": {
-    "test": "tsc && jest",
+    "test": "tsc && jest --runInBand",
     "lint": "eslint -c .eslintrc.js --ext .ts ./src",
     "build": "nest build",
     "start": "nest start",

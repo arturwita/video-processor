@@ -1,11 +1,12 @@
 import { Controller } from "@nestjs/common";
 import { RMQRoute } from "nestjs-rmq";
 import { EventTopic } from "../domain/event-topic.enum";
-import { StartVideoAnalyzingEventPayload } from "../domain/events/start-video-analyzing.event";
-import { CreateVideoDto, VideoRepository } from "./video.repository";
 import { ProcessingStatus } from "../domain/processing-status.enum";
+import { StartVideoAnalyzingEventPayload } from "../domain/events/start-video-analyzing.event";
 import { GetVideoByIdEventPayload } from "../domain/events/get-video-by-id.event";
 import { VideoAnalyzedEventPayload } from "../domain/events/video-analyzed.event";
+import { VideoProcessedEventPayload } from "../domain/events/video-processed.event";
+import { CreateVideoDto, VideoRepository } from "./video.repository";
 import { Video } from "./video.schema";
 
 @Controller()
@@ -32,6 +33,16 @@ export class StoringController {
     };
 
     return this.videoRepository.update(videoId, saveMetaProperties);
+  }
+
+  @RMQRoute(EventTopic.VIDEO_PROCESSED)
+  public async saveProcessingResults(payload: VideoProcessedEventPayload) {
+    const { videoId } = payload;
+    const processingResultProperties: Partial<Video> = {
+      status: ProcessingStatus.PROCESSED,
+    };
+
+    return this.videoRepository.update(videoId, processingResultProperties);
   }
 
   @RMQRoute(EventTopic.GET_VIDEO_BY_ID)
