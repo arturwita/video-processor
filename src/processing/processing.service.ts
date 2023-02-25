@@ -2,11 +2,13 @@ import { Inject, Injectable, Logger, LoggerService } from "@nestjs/common";
 import { InjectConfig } from "@unifig/nest";
 import { ConfigContainer } from "@unifig/core";
 import { RMQService } from "nestjs-rmq";
-import { VideoAnalyzedEventPayload } from "../domain/events/video-analyzed.event";
-import { VideoProcessedEvent } from "../domain/events/video-processed.event";
 import { FFmpegService } from "../ffmpeg/ffmpeg.service";
 import { ProcessingConfig } from "../config/processing.config";
 import { StorageStrategyService } from "../storage/storage-strategy.service";
+import {
+  VideoProcessedEvent,
+  ProcessVideoEventPayload,
+} from "../domain/events";
 
 @Injectable()
 export class ProcessingService {
@@ -18,7 +20,7 @@ export class ProcessingService {
     private readonly storageStrategyService: StorageStrategyService
   ) {}
 
-  public async process(payload: VideoAnalyzedEventPayload) {
+  public async process(payload: ProcessVideoEventPayload) {
     try {
       const { videoId, url, meta } = payload;
       const { values: config } = this.config;
