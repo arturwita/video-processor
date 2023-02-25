@@ -4,23 +4,23 @@ import { ProcessVideoResponseDto } from "./dto/process-video-response.dto";
 import { ProcessVideoBodyDto } from "./dto/process-video-body.dto";
 import { GetVideoByIdParamsDto } from "./dto/get-video-by-id-params.dto";
 import { GetVideoByIdResponseDto } from "./dto/get-video-by-id-response.dto";
-import { AppService } from "./app.service";
+import { GatewayService } from "./gateway.service";
 
 @Controller("videos")
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class GatewayController {
+  constructor(private readonly gatewayService: GatewayService) {}
 
   @Post("/process")
   @ApiExtraModels(ProcessVideoResponseDto)
   @ApiResponse({ schema: { $ref: getSchemaPath(ProcessVideoResponseDto) } })
   public async initProcessing(@Body() dto: ProcessVideoBodyDto) {
-    return this.appService.initProcessing(dto);
+    return this.gatewayService.initProcessing(dto);
   }
 
   @Get("/:id")
   @ApiExtraModels(GetVideoByIdResponseDto)
   @ApiResponse({ schema: { $ref: getSchemaPath(GetVideoByIdResponseDto) } })
   public async getVideoById(@Param() { id }: GetVideoByIdParamsDto) {
-    return this.appService.getById(id);
+    return this.gatewayService.getById(id);
   }
 }

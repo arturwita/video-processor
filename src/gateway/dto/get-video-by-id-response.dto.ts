@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { ProcessingStatus } from "../domain/processing-status.enum";
-import { VideoId } from "../shared/types/video";
+import { ProcessingStatus } from "../../domain/processing-status.enum";
+import { VideoId } from "../../shared/types/video";
 import { VideoMetadataDto } from "./video-metadata.dto";
 
 export class GetVideoByIdResponseDto {

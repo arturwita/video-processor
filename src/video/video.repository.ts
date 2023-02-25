@@ -10,10 +10,6 @@ export type CreateVideoDto = Pick<Video, "_id" | "url" | "status">;
 export class VideoRepository {
   constructor(@InjectModel(Video.name) private readonly model: Model<Video>) {}
 
-  public async getAll(): Promise<Video[]> {
-    return this.model.find({});
-  }
-
   public async getById(videoId: VideoId): Promise<Video | null> {
     return this.model.findById(videoId);
   }
