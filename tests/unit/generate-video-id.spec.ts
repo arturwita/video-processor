@@ -1,4 +1,4 @@
-import { generateVideoId } from "./generate-video-id";
+import { generateVideoId } from "../../src/shared/utils/generate-video-id";
 
 describe("generate video id", () => {
   it("should return a valid UUID v4 string", () => {

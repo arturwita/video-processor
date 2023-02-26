@@ -73,11 +73,19 @@ Here's a list of supported endpoints:
 
 ### Tests <a id="tests"></a>
 
-Tests can be run via the following script:
+Unit tests can be run via the following script:
 
 ```
-npm test
+npm run test:unit
 ```
+
+E2E tests can be run via the following script:
+
+```
+npm run test:e2e
+```
+
+**Important:** Make sure to firstly run the app before running E2E tests.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

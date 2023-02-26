@@ -4,7 +4,8 @@
   "description": "A simple video processing API.",
   "main": "dist/main.js",
   "scripts": {
-    "test": "tsc && jest --runInBand",
+    "test:unit": "tsc && jest ./tests/unit --runInBand",
+    "test:e2e": "tsc && jest ./tests/e2e --runInBand",
     "lint": "eslint -c .eslintrc.js --ext .ts ./src",
     "build": "nest build",
     "start": "nest start",
@@ -47,6 +48,8 @@
     "@types/node": "18.11.18",
     "@typescript-eslint/eslint-plugin": "5.50.0",
     "@typescript-eslint/parser": "5.50.0",
+    "amqplib": "0.10.3",
+    "axios": "1.3.4",
     "eslint": "8.20.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-plugin-prettier": "4.2.1",

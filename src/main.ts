@@ -9,8 +9,6 @@ import { AppConfig } from "./config/app.config";
 import { RabbitConfig } from "./config/rabbit.config";
 import { StorageConfig } from "./config/storage.config";
 import { ProcessingConfig } from "./config/processing.config";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { name, version, description } = require("../package.json");
 
 (async function bootstrap() {
   const validationError = await Config.register({
@@ -33,9 +31,8 @@ const { name, version, description } = require("../package.json");
   app.useGlobalPipes(new ValidationPipe());
 
   const swaggerFile = new DocumentBuilder()
-    .setTitle(name)
-    .setDescription(description)
-    .setVersion(version)
+    .setTitle("Video Processor API")
+    .setVersion("1.0.0")
     .build();
   const document = SwaggerModule.createDocument(app, swaggerFile);
   SwaggerModule.setup("docs", app, document);
