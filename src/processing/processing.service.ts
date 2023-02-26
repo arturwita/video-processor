@@ -4,7 +4,7 @@ import { ConfigContainer } from "@unifig/core";
 import { RMQService } from "nestjs-rmq";
 import { FFmpegService } from "../ffmpeg/ffmpeg.service";
 import { ProcessingConfig } from "../config/processing.config";
-import { StorageStrategyService } from "../storage/storage-strategy.service";
+import { StorageStrategyService } from "./storage/storage-strategy.service";
 import {
   VideoProcessedEvent,
   ProcessVideoEventPayload,

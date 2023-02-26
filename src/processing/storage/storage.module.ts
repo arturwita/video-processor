@@ -1,6 +1,6 @@
 import { Logger, Module } from "@nestjs/common";
 import { ConfigModule } from "@unifig/nest";
-import { StorageConfig } from "../config/storage.config";
+import { StorageConfig } from "../../config/storage.config";
 import { FileStorageService } from "./file-storage.service";
 import { StorageStrategyService } from "./storage-strategy.service";
 

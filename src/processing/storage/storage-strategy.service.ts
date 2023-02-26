@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectConfig } from "@unifig/nest";
 import { ConfigContainer } from "@unifig/core";
-import { StorageConfig } from "../config/storage.config";
+import { StorageConfig } from "../../config/storage.config";
 import { FileStorageService } from "./file-storage.service";
 import { VideoStorage } from "./abstract/video-storage";
 
