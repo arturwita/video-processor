@@ -1,5 +1,5 @@
 import { Stream } from "node:stream";
-import { VideoId } from "../../shared/types/video";
+import { VideoId } from "../../../shared/types/video";
 
 export enum StorageType {
   LOCAL = "local",

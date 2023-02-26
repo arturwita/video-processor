@@ -4,8 +4,8 @@ import { ConfigContainer } from "@unifig/core";
 import { Stream } from "node:stream";
 import { writeFile } from "fs/promises";
 import { VideoStorage, StorageType } from "./abstract/video-storage";
-import { StorageConfig } from "../config/storage.config";
-import { VideoId } from "../shared/types/video";
+import { StorageConfig } from "../../config/storage.config";
+import { VideoId } from "../../shared/types/video";
 
 @Injectable()
 export class FileStorageService extends VideoStorage {
