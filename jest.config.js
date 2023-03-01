@@ -4,6 +4,7 @@ module.exports = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   coverageProvider: "v8",
+  testTimeout: 5_000, // todo: remove if not necessary
   testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.(ts)?$",
   moduleFileExtensions: [
     "js",
