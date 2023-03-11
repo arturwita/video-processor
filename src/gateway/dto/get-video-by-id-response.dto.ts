@@ -15,4 +15,7 @@ export class GetVideoByIdResponseDto {
 
   @ApiProperty()
   meta: VideoMetadataDto;
+
+  @ApiProperty()
+  __v: number;
 }

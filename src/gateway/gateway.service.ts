@@ -11,9 +11,11 @@ import {
   GetVideoByIdEventPayload,
   VideoProcessingRequestEvent,
 } from "../domain/events";
-import { ProcessVideoBodyDto } from "./dto/process-video-body.dto";
-import { GetVideoByIdResponseDto } from "./dto/get-video-by-id-response.dto";
-import { ProcessVideoResponseDto } from "./dto/process-video-response.dto";
+import {
+  ProcessVideoBodyDto,
+  GetVideoByIdResponseDto,
+  ProcessVideoResponseDto,
+} from "./dto";
 import { generateVideoId } from "../shared/utils/generate-video-id";
 import { VideoId } from "../shared/types/video";
 

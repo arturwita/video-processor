@@ -130,7 +130,7 @@ This module starts the chain of operations performed to process the video.
 #### Analyzing Module
 
 It is responsible for extracting the metadata from the given video.
-Also, it should notify the Processing Module that it can start its work. 
+Also, it should notify the Processing Module that it can start its work.
 
 #### Processing Module
 
@@ -142,7 +142,7 @@ Once its job is done, it notifies the Video Module that the video is processed.
 
 This module is a layer responsible for storing the results of video processing.
 Thanks to it, we can implement a set of strategies used for storing results
-(e.g. storing the results locally, in S3, database, or any other source). 
+(e.g. storing the results locally, in S3, database, or any other source).
 
 #### Video Module
 
